@@ -1,10 +1,14 @@
-import { Provider } from "@/components/ui/provider"
-import type { Metadata } from "next"
+import { Provider } from '@/components/ui/provider';
+import type { Metadata } from 'next';
+import { ApolloWrapper } from '../lib/ApolloWrapper';
 
 export const metadata: Metadata = {
-  title: "Next GraphQL Project",
-  description: "Challenge Brief (v3.5)",
+  title: 'Next GraphQL Project',
+  description: 'Challenge Brief (v3.5)',
 };
+
+// Root layout that wraps the entire application
+// Injects Chakra UI styling and Apollo Client context
 
 export default function RootLayout({
   children,
@@ -12,10 +16,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning={true}>
+      <body>
         <Provider>
-          {children}
+          <ApolloWrapper>{children}</ApolloWrapper>
         </Provider>
       </body>
     </html>
