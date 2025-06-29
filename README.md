@@ -1,31 +1,31 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Project Setup
+# Project Setup
 
 Install Required packages
 
-# Apollo Client & GraphQL
+## Apollo Client & GraphQL
 
 npm install @apollo/client graphql
 
-# Chakra UI + form helpers
+## Chakra UI + form helpers
 
 npm install @chakra-ui/react @emotion/react @emotion/styled framer-motion
 
-# Chakra UI Components (Modal, Form Control, etc.)
+## Chakra UI Components (Modal, Form Control, etc.)
 
 npm install @chakra-ui/form-control @chakra-ui/modal
 
-# React Hook Form + Zod Validation
+## React Hook Form + Zod Validation
 
 npm install react-hook-form zod @hookform/resolvers
 
-# JWT for auth
+## JWT for auth
 
 npm install jsonwebtoken
 npm install -D @types/jsonwebtoken
 
-## Tech Stack
+# Tech Stack
 
 - Next.js (App Router)
 - TypeScript
@@ -37,32 +37,32 @@ npm install -D @types/jsonwebtoken
 - JWT Authentication
 - React Hook Form + Zod
 
-## Features
+# Features
 
--  Secure user authentication via JWT
--  User detail form with validation
--  Cookie-based session persistence
--  Apollo GraphQL integration
--  Character explorer with modal details (Rick & Morty API)
--  Pagination and URL sync (`/information?page=n`)
--  Graceful error, loading, and not-found pages
+- Secure user authentication via JWT
+- User detail form with validation
+- Cookie-based session persistence
+- Apollo GraphQL integration
+- Character explorer with modal details (Rick & Morty API)
+- Pagination and URL sync (`/information?page=n`)
+- Graceful error, loading, and not-found pages
 
-## Getting Started
+# Getting Started
 
-# Clone the Repository
+## Clone the Repository
 
 ```bash
 git clone https://github.com/MeghaMGoutham/next-graphql-project.git
 cd next-graphql-project
 ```
 
-# Install Dependencies
+## Install Dependencies
 
 ```bash
 npm install
 ```
 
-# Run the Development Server
+## Run the Development Server
 
 ```bash
 npm run dev
@@ -70,7 +70,7 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Project Structure
+# Project Structure
 
 src/
 ├── app/
