@@ -2,15 +2,7 @@
 
 'use client';
 
-import {
-  Button,
-  Input,
-  Field,
-  VStack,
-  Box,
-  Center,
-  Image,
-} from '@chakra-ui/react';
+import { Button, Input, Field, VStack, Box, Center } from '@chakra-ui/react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';

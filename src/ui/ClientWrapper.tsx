@@ -3,7 +3,7 @@
 
 'use client';
 
-import { Container, Text, Button, Stack } from '@chakra-ui/react';
+import { Container } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import UserDetailsForm from './UserDetailsForm';
 import { useRouter, useSearchParams } from 'next/navigation';
