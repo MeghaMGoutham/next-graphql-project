@@ -72,24 +72,26 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 # Project Structure
 
+```plaintext
 src/
 ├── app/
-│ ├── layout.tsx # Root layout (Chakra + Apollo providers)
-│ ├── page.tsx # Home page (JWT auth + user view)
-│ ├── api/
-│ │ └── user-token/
-│ │ └── route.ts # API route to issue JWT and set cookie
-│ └── information/
-│ ├── page.tsx # Character info page (Apollo query)
-│ ├── error.tsx # Error fallback for /information
-│ ├── loading.tsx # Loading UI for /information
-│ └── not-found.tsx # 404 fallback for /information
+│   ├── layout.tsx           # Root layout (Chakra + Apollo providers)
+│   ├── page.tsx             # Home page (JWT auth + user view)
+│   ├── api/
+│   │   └── user-token/
+│   │       └── route.ts     # API route to issue JWT and set cookie
+│   └── information/
+│       ├── page.tsx         # Character info page (Apollo query)
+│       ├── error.tsx        # Error fallback for /information
+│       ├── loading.tsx      # Loading UI for /information
+│       └── not-found.tsx    # 404 fallback for /information
 ├── lib/
-│ ├── ApolloWrapper.tsx # Apollo Client setup
-│ └── queries.ts # GraphQL query for characters
+│   ├── ApolloWrapper.tsx    # Apollo Client setup
+│   └── queries.ts           # GraphQL query for characters
 ├── ui/
-│ ├── Layout.tsx # Page layout with background and footer
-│ ├── Footer.tsx
-│ ├── ClientWrapper.tsx # Displays form or user details
-│ ├── UserDetailsForm.tsx # Form with zod + react-hook-form
-│ └── InformationPage.tsx # Grid, modal, and pagination
+│   ├── Layout.tsx           # Page layout with background and footer
+│   ├── Footer.tsx
+│   ├── ClientWrapper.tsx    # Displays form or user details
+│   ├── UserDetailsForm.tsx  # Form with zod + react-hook-form
+│   └── InformationPage.tsx  # Grid, modal, and pagination
+```
