@@ -8,9 +8,16 @@ import { redirect } from 'next/navigation';
 // If no token or invalid token, redirect to '/' (login flow)
 const SECRET = process.env.JWT_SECRET!;
 
-export default async function HomePage() {
+export default async function HomePage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ edit?: string }>;
+}) {
   const cookieStore = await cookies();
   const token = cookieStore.get('userToken')?.value;
+
+  const params = await searchParams;
+  const editing = params?.edit === 'true';
 
   let userName = '';
   let jobTitle = '';
@@ -25,7 +32,7 @@ export default async function HomePage() {
       jobTitle = decoded.jobTitle;
     } catch (error) {
       console.error('Invalid or expired token:', error);
-      redirect('/');
+      return redirect('/');
     }
   }
 
@@ -33,7 +40,11 @@ export default async function HomePage() {
   // Used a separate client component to manage state and routing logic, since React hooks can't run in server components.
   return (
     <Layout>
-      <ClientWrapper userName={userName} jobTitle={jobTitle} />
+      <ClientWrapper
+        userName={userName}
+        jobTitle={jobTitle}
+        editMode={editing}
+      />
     </Layout>
   );
 }

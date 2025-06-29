@@ -6,24 +6,34 @@ Install Required packages
 
 ## Apollo Client & GraphQL
 
+```bash
 npm install @apollo/client graphql
+```
 
 ## Chakra UI + form helpers
 
+```bash
 npm install @chakra-ui/react @emotion/react @emotion/styled framer-motion
+```
 
 ## Chakra UI Components (Modal, Form Control, etc.)
 
+```bash
 npm install @chakra-ui/form-control @chakra-ui/modal
+```
 
 ## React Hook Form + Zod Validation
 
+```bash
 npm install react-hook-form zod @hookform/resolvers
+```
 
 ## JWT for auth
 
+```bash
 npm install jsonwebtoken
 npm install -D @types/jsonwebtoken
+```
 
 # Tech Stack
 

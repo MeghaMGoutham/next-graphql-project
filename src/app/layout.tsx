@@ -1,6 +1,7 @@
 import { Provider } from '@/components/ui/provider';
 import type { Metadata } from 'next';
 import { ApolloWrapper } from '../lib/ApolloWrapper';
+import { AuthProvider } from '@/context/AuthContext';
 
 export const metadata: Metadata = {
   title: 'Next GraphQL Project',
@@ -18,9 +19,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning={true}>
       <body>
-        <Provider>
-          <ApolloWrapper>{children}</ApolloWrapper>
-        </Provider>
+        <AuthProvider>
+          <Provider>
+            <ApolloWrapper>{children}</ApolloWrapper>
+          </Provider>
+        </AuthProvider>
       </body>
     </html>
   );

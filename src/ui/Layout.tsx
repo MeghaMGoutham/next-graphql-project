@@ -2,21 +2,61 @@
 
 'use client';
 
-import { Box, Flex, Heading } from '@chakra-ui/react';
+import { Box, Button, Flex, Heading, HStack } from '@chakra-ui/react';
 import Footer from './Footer';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
+  const { isLoggedIn, logout } = useAuth();
+
+  const navButtons = isLoggedIn ? (
+    <>
+      <Button
+        variant="ghost"
+        color="white"
+        _hover={{ bg: 'blue.600' }}
+        onClick={() => router.push('/')}
+      >
+        Home
+      </Button>
+      <Button
+        variant="ghost"
+        color="white"
+        _hover={{ bg: 'blue.600' }}
+        onClick={() => router.push('/?edit=true')}
+      >
+        Edit Details
+      </Button>
+      <Button
+        variant="ghost"
+        color="white"
+        _hover={{ bg: 'red.600' }}
+        onClick={() => logout()}
+      >
+        Logout
+      </Button>
+    </>
+  ) : null;
+
   return (
     <Flex
       direction="column"
       minH="100vh"
-      bgImage="url(/bg.jpg)"
+      bgImage="url(/rickmorty-bg.jpg)"
       bgRepeat="no-repeat"
       bgSize="cover"
+      backgroundPosition="center"
+      position="relative"
+      width="100%"
     >
-      <Box bg="rgba(173,216,230,1)" w="100%">
-        <Flex justify="center" mx="6" py="2">
-          <Heading textAlign="center">Welcome!</Heading>
+      <Box bg="black" w="100%" py={3} px={6}>
+        <Flex justify="space-between" align="center">
+          <Heading size="md" color="white">
+            Welcome!
+          </Heading>
+          <HStack gap={4}>{navButtons}</HStack>
         </Flex>
       </Box>
       <Box flex="1" px="6" py="4">

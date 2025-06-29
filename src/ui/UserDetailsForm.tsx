@@ -2,10 +2,19 @@
 
 'use client';
 
-import { Button, Input, Field, VStack } from '@chakra-ui/react';
+import {
+  Button,
+  Input,
+  Field,
+  VStack,
+  Box,
+  Center,
+  Image,
+} from '@chakra-ui/react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useAuth } from '@/context/AuthContext';
 
 interface FormValues {
   userName: string;
@@ -19,9 +28,15 @@ const formSchema = z.object({
 
 export default function UserDetailsForm({
   onComplete,
+  defaultValues,
+  isUpdate = false,
 }: {
   onComplete: (userData: { userName: string; jobTitle: string }) => void;
+  defaultValues?: { userName: string; jobTitle: string };
+  isUpdate?: boolean;
 }) {
+  const { login } = useAuth();
+
   // Validation is handled using zod schema + react-hook-form
   const {
     register,
@@ -29,55 +44,76 @@ export default function UserDetailsForm({
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(formSchema),
+    defaultValues,
   });
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    try {
-      const res = await fetch('/api/user-token', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
-
-      if (res.ok) {
-        onComplete(data);
-      } else {
-        console.error('Failed to set token');
-      }
-    } catch (error) {
-      console.error('Error submitting form:', error);
+    if (!isUpdate) {
+      await login(data.userName, data.jobTitle);
     }
+
+    onComplete(data); // Proceed after login success
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <VStack gap="4">
-        <Field.Root invalid={!!errors.userName}>
-          <Field.Label>Username</Field.Label>
-          <Input
-            id="userNameInput"
-            borderColor="black"
-            placeholder="Enter your username"
-            {...register('userName')}
-          />
-          <Field.ErrorText>{errors.userName?.message}</Field.ErrorText>
-        </Field.Root>
+    <Center minH="100vh">
+      <Box
+        p="8"
+        bg="rgba(0,0,0,0.5)"
+        backdropFilter="blur(10px)"
+        rounded="md"
+        w="full"
+        maxW="sm"
+        boxShadow="lg"
+        border="1px solid rgba(255,255,255,0.2)"
+      >
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <VStack gap="4">
+            <Field.Root invalid={!!errors.userName} w="full">
+              <Field.Label color="white" fontSize="sm" fontWeight="semibold">
+                Username
+              </Field.Label>
+              <Input
+                id="userNameInput"
+                placeholder="Enter your username"
+                borderColor="whiteAlpha.700"
+                _placeholder={{ color: 'whiteAlpha.700' }}
+                color="white"
+                _hover={{ borderColor: 'white' }}
+                {...register('userName')}
+              />
+              <Field.ErrorText>{errors.userName?.message}</Field.ErrorText>
+            </Field.Root>
 
-        <Field.Root invalid={!!errors.jobTitle}>
-          <Field.Label>Job Title</Field.Label>
-          <Input
-            id="jobTitleInput"
-            borderColor="black"
-            placeholder="Enter your job title"
-            {...register('jobTitle')}
-          />
-          <Field.ErrorText>{errors.jobTitle?.message}</Field.ErrorText>
-        </Field.Root>
+            <Field.Root invalid={!!errors.jobTitle} w="full">
+              <Field.Label color="white" fontSize="sm" fontWeight="semibold">
+                Job Title
+              </Field.Label>
+              <Input
+                id="jobTitleInput"
+                placeholder="Entere your job title"
+                borderColor="whiteAlpha.700"
+                _placeholder={{ color: 'whiteAlpha.700' }}
+                color="white"
+                _hover={{ borderColor: 'white' }}
+                {...register('jobTitle')}
+              />
+              <Field.ErrorText>{errors.jobTitle?.message}</Field.ErrorText>
+            </Field.Root>
 
-        <Button type="submit" colorScheme="blue" w="full">
-          Submit
-        </Button>
-      </VStack>
-    </form>
+            <Button
+              type="submit"
+              bg="black"
+              color="white"
+              _hover={{ bg: 'gray.900' }}
+              w="full"
+              fontWeight="bold"
+            >
+              {isUpdate ? 'Update' : 'Submit'}
+            </Button>
+          </VStack>
+        </form>
+      </Box>
+    </Center>
   );
 }

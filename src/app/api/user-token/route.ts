@@ -21,7 +21,7 @@ export async function POST(request: Request) {
   // Accepts userName and jobTitle and returns a JWT in an HTTP-only cookie
   response.cookies.set('userToken', token, {
     httpOnly: true,
-    maxAge: 10 * 60 * 1000, //10 minutes
+    maxAge: 600, //10 minutes
     path: '/',
     sameSite: 'lax',
     secure: process.env.NODE_ENV === 'production',

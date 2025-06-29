@@ -4,46 +4,65 @@
 'use client';
 
 import { Container, Text, Button, Stack } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import UserDetailsForm from './UserDetailsForm';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
+import UserDetailsDisplay from './UserDetailsDisplay';
 
 export default function ClientWrapper({
   userName: initialUserName,
   jobTitle: initialJobTitle,
+  editMode = false,
 }: {
   userName: string;
   jobTitle: string;
+  editMode?: boolean;
 }) {
-  const [userName, setUserName] = useState(initialUserName);
-  const [jobTitle, setJobTitle] = useState(initialJobTitle);
-  const [editing, setEditing] = useState(false);
+  const { userName, jobTitle, isLoggedIn, login } = useAuth();
+
+  const [editing, setEditing] = useState(editMode);
   const router = useRouter();
 
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    // Initialize auth context with server data only once
+    if (!isLoggedIn && initialUserName && initialJobTitle) {
+      login(initialUserName, initialJobTitle);
+    }
+  }, [initialUserName, initialJobTitle, isLoggedIn, login]);
+
+  useEffect(() => {
+    const isEdit = searchParams.get('edit') === 'true';
+    setEditing(isEdit);
+  }, [searchParams]);
+
   const handleComplete = (data: { userName: string; jobTitle: string }) => {
-    setUserName(data.userName);
-    setJobTitle(data.jobTitle);
+    login(data.userName, data.jobTitle);
     setEditing(false);
+    setEditing(false);
+
+    if (searchParams.has('edit')) {
+      const newParams = new URLSearchParams(searchParams.toString());
+      newParams.delete('edit');
+      router.replace(`/?${newParams.toString()}`);
+    }
   };
 
   return (
     <Container maxW="container.md" py={8}>
-      {userName && jobTitle && !editing ? (
-        <Stack gap={4} textAlign="center">
-          <Text>Username: {userName}</Text>
-          <Text>Job Title: {jobTitle}</Text>
-          <Stack direction="row" gap={4} justify="center">
-            <Button onClick={() => setEditing(true)}>Edit User Details</Button>
-            <Button
-              colorScheme="blue"
-              onClick={() => router.push('/information')}
-            >
-              Go to Information
-            </Button>
-          </Stack>
-        </Stack>
+      {isLoggedIn && !editing ? (
+        <UserDetailsDisplay
+          userName={userName ?? ''}
+          jobTitle={jobTitle ?? ''}
+        />
       ) : (
-        <UserDetailsForm onComplete={handleComplete} />
+        <UserDetailsForm
+          onComplete={handleComplete}
+          defaultValues={{ userName: userName ?? '', jobTitle: jobTitle ?? '' }}
+          isUpdate={editing}
+        />
       )}
     </Container>
   );
