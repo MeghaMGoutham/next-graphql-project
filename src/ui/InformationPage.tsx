@@ -15,22 +15,27 @@ import { useQuery } from '@apollo/client';
 import { useState } from 'react';
 import { useRouter, notFound } from 'next/navigation';
 import { GET_CHARACTERS } from '@/lib/queries';
+import Loading from './Loading';
+import { Character, CharactersQueryData } from '@/constants/types';
 
 export default function InformationPage({
   currentPage,
 }: {
   currentPage: number;
 }) {
-  const { data, loading, error } = useQuery(GET_CHARACTERS, {
-    variables: { page: currentPage },
-  });
+  const { data, loading, error } = useQuery<CharactersQueryData>(
+    GET_CHARACTERS,
+    {
+      variables: { page: currentPage },
+    }
+  );
 
   const router = useRouter();
   const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState<any>(null);
+  const [selected, setSelected] = useState<Character | null>(null);
 
   if (loading) {
-    return <>Loading</>;
+    return <Loading />;
   }
   if (error) throw error;
   if (!data?.characters?.results?.length) notFound();
@@ -44,7 +49,7 @@ export default function InformationPage({
   return (
     <Box px={4} py={4} pb={28} height="calc(100vh - 120px)" overflowY="auto">
       <SimpleGrid columns={[1, 2, 3]} gap={4} p={4}>
-        {characters.map((char: any) => (
+        {characters.map((char: Character) => (
           <Dialog.Root
             key={char.id}
             open={open && selected?.id === char.id}
