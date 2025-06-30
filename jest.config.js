@@ -1,10 +1,18 @@
-/** @type {import('ts-jest').JestConfigWithTsJest} */
-module.exports = {
-  preset: 'ts-jest',
-  testEnvironment: 'jest-environment-jsdom',
+// jest.config.ts
+import nextJest from 'next/jest.js';
+
+const createJestConfig = nextJest({ dir: './' });
+
+const customJestConfig = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
+    '\\.(css|scss|sass)$': 'identity-obj-proxy',
   },
-  testPathIgnorePatterns: ['/node_modules/', '/.next/'],
+  transformIgnorePatterns: [
+    '/node_modules/(?!(@chakra-ui|@emotion|framer-motion)/)',
+  ],
+  testEnvironment: 'jsdom',
 };
+
+export default createJestConfig(customJestConfig);

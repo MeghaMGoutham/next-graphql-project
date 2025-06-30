@@ -85,23 +85,39 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ```plaintext
 src/
 ├── app/
-│   ├── layout.tsx           # Root layout (Chakra + Apollo providers)
-│   ├── page.tsx             # Home page (JWT auth + user view)
+│   ├── layout.tsx                # Root layout (Chakra + Apollo providers)
+│   ├── page.tsx                  # Home page (JWT auth + user view)
 │   ├── api/
+│   │   ├── logout/
+│   │   │   └── route.ts          # API route to clear JWT cookie
 │   │   └── user-token/
-│   │       └── route.ts     # API route to issue JWT and set cookie
+│   │       └── route.ts          # API route to issue JWT and set cookie
 │   └── information/
-│       ├── page.tsx         # Character info page (Apollo query)
-│       ├── error.tsx        # Error fallback for /information
-│       ├── loading.tsx      # Loading UI for /information
-│       └── not-found.tsx    # 404 fallback for /information
+│       ├── page.tsx              # Character info page (Apollo query)
+│       ├── error.tsx             # Error fallback for /information
+│       └── not-found.tsx         # 404 fallback for /information
+├── constants/
+│   └── type.ts                   # Shared TypeScript types
+├── context/
+│   └── AuthContext.tsx           # Auth state provider using Context API
 ├── lib/
-│   ├── ApolloWrapper.tsx    # Apollo Client setup
-│   └── queries.ts           # GraphQL query for characters
+│   ├── ApolloWrapper.tsx         # Apollo Client setup
+│   └── queries.ts                # GraphQL query for characters
+├── tests/                        # All test files for components
+│   ├── ClientWrapper.test.tsx
+│   ├── Footer.test.tsx
+│   ├── InformationPage.test.tsx
+│   ├── Layout.test.tsx
+│   ├── Loading.test.tsx
+│   ├── UserDetailsDisplay.test.tsx
+│   └── UserDetailsForm.test.tsx
 ├── ui/
-│   ├── Layout.tsx           # Page layout with background and footer
+│   ├── ClientWrapper.tsx         # Displays form or user details
 │   ├── Footer.tsx
-│   ├── ClientWrapper.tsx    # Displays form or user details
-│   ├── UserDetailsForm.tsx  # Form with zod + react-hook-form
-│   └── InformationPage.tsx  # Grid, modal, and pagination
+│   ├── InformationPage.tsx       # Grid, modal, and pagination
+│   ├── Layout.tsx                # Page layout with background and footer
+│   ├── Loading.tsx               # Chakra-based loading state
+│   ├── UserDetailsDisplay.tsx    # Displays submitted user details
+│   └── UserDetailsForm.tsx       # Form with zod + react-hook-form
+
 ```
