@@ -16,7 +16,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [userName, setUserName] = useState<string | null>(null);
   const [jobTitle, setJobTitle] = useState<string | null>(null);
-  const isLoggedIn = Boolean(userName && jobTitle);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const router = useRouter();
 
   const login = async (userName: string, jobTitle: string) => {
@@ -31,6 +31,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         console.error('Failed to set token');
         return;
       }
+      setIsLoggedIn(true);
       setUserName(userName);
       setJobTitle(jobTitle);
     } catch (err) {
@@ -44,6 +45,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (res.ok) {
         setUserName(null);
         setJobTitle(null);
+        setIsLoggedIn(false);
         router.push('/');
       } else {
         console.error('Logout API failed');

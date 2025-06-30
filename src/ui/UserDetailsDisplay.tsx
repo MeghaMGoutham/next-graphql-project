@@ -1,4 +1,12 @@
-import { Box, Center, Stack, Text, Image, Button } from '@chakra-ui/react';
+import {
+  Box,
+  Center,
+  Stack,
+  Text,
+  Image,
+  Button,
+  Flex,
+} from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 
 export default function UserDetailsDisplay({
@@ -10,7 +18,7 @@ export default function UserDetailsDisplay({
 }) {
   const router = useRouter();
   return (
-    <Center minH="100vh">
+    <Flex justify="flex-start" align="center" direction="column" p={4}>
       <Box
         p="8"
         bg="rgba(0,0,0,0.5)"
@@ -56,6 +64,6 @@ export default function UserDetailsDisplay({
           </Button>
         </Stack>
       </Box>
-    </Center>
+    </Flex>
   );
 }

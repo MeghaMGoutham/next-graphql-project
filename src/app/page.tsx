@@ -19,19 +19,11 @@ export default async function HomePage({
   const params = await searchParams;
   const editing = params?.edit === 'true';
 
-  let userName = '';
-  let jobTitle = '';
-
   if (token) {
     try {
-      const decoded = jwt.verify(token, SECRET) as {
-        userName: string;
-        jobTitle: string;
-      };
-      userName = decoded.userName;
-      jobTitle = decoded.jobTitle;
-    } catch (error) {
-      console.error('Invalid or expired token:', error);
+      jwt.verify(token, process.env.JWT_SECRET!);
+    } catch (err) {
+      console.error('Invalid or expired token:', err);
       return redirect('/');
     }
   }
@@ -40,11 +32,7 @@ export default async function HomePage({
   // Used a separate client component to manage state and routing logic, since React hooks can't run in server components.
   return (
     <Layout>
-      <ClientWrapper
-        userName={userName}
-        jobTitle={jobTitle}
-        editMode={editing}
-      />
+      <ClientWrapper editMode={editing} />
     </Layout>
   );
 }

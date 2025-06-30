@@ -11,12 +11,8 @@ import { useAuth } from '@/context/AuthContext';
 import UserDetailsDisplay from './UserDetailsDisplay';
 
 export default function ClientWrapper({
-  userName: initialUserName,
-  jobTitle: initialJobTitle,
   editMode = false,
 }: {
-  userName: string;
-  jobTitle: string;
   editMode?: boolean;
 }) {
   const { userName, jobTitle, isLoggedIn, login } = useAuth();
@@ -25,13 +21,6 @@ export default function ClientWrapper({
   const router = useRouter();
 
   const searchParams = useSearchParams();
-
-  useEffect(() => {
-    // Initialize auth context with server data only once
-    if (!isLoggedIn && initialUserName && initialJobTitle) {
-      login(initialUserName, initialJobTitle);
-    }
-  }, [initialUserName, initialJobTitle, isLoggedIn, login]);
 
   useEffect(() => {
     const isEdit = searchParams.get('edit') === 'true';

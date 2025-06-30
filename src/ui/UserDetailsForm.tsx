@@ -2,7 +2,15 @@
 
 'use client';
 
-import { Button, Input, Field, VStack, Box, Center } from '@chakra-ui/react';
+import {
+  Button,
+  Input,
+  Field,
+  VStack,
+  Box,
+  Center,
+  Flex,
+} from '@chakra-ui/react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -48,7 +56,7 @@ export default function UserDetailsForm({
   };
 
   return (
-    <Center minH="100vh">
+    <Flex justify="flex-start" align="center" direction="column" p={4}>
       <Box
         p="8"
         bg="rgba(0,0,0,0.5)"
@@ -106,6 +114,6 @@ export default function UserDetailsForm({
           </VStack>
         </form>
       </Box>
-    </Center>
+    </Flex>
   );
 }

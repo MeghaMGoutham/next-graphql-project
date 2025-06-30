@@ -29,7 +29,9 @@ export default function InformationPage({
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<any>(null);
 
-  if (loading) return null;
+  if (loading) {
+    return <>Loading</>;
+  }
   if (error) throw error;
   if (!data?.characters?.results?.length) notFound();
 
@@ -64,7 +66,7 @@ export default function InformationPage({
                 }}
               >
                 <Image src={char.image} alt={char.name} borderRadius="md" />
-                <Text mt={2} fontWeight="bold">
+                <Text mt={2} fontWeight="bold" color="white">
                   {char.name}
                 </Text>
               </Box>
