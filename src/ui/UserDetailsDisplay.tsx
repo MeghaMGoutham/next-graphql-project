@@ -9,6 +9,7 @@ import {
 } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 
+// Displays user information on home page after logged in
 export default function UserDetailsDisplay({
   userName,
   jobTitle,

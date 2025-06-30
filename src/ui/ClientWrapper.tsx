@@ -32,6 +32,7 @@ export default function ClientWrapper({
     setEditing(false);
     setEditing(false);
 
+    //On updating data, URl to be updated back to HomePage "/" (if URL has edit parameter)
     if (searchParams.has('edit')) {
       const newParams = new URLSearchParams(searchParams.toString());
       newParams.delete('edit');
@@ -39,6 +40,8 @@ export default function ClientWrapper({
     }
   };
 
+  //Displays userform or userdetails based on isLoggedIn state and editing mode
+  //Send defaultValues to UserDetailsForm in order to pre-populate the form fields with existing user data when editing, or to have them empty by default when creating new data.
   return (
     <Container maxW="container.md" py={8}>
       {isLoggedIn && !editing ? (

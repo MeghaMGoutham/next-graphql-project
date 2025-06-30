@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
+// Define the shape of the AuthContext's data and methods
 interface AuthContextType {
   userName: string | null;
   jobTitle: string | null;
@@ -11,14 +12,17 @@ interface AuthContextType {
   logout: () => void;
 }
 
+// Create React Context with AuthContextType
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// AuthProvider component to wrap the app and provide auth state and methods
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [userName, setUserName] = useState<string | null>(null);
   const [jobTitle, setJobTitle] = useState<string | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const router = useRouter();
 
+  // Login method: Sends POST request to backend API to get JWT cookie, then updates context state with user info and sets isLoggedIn = true
   const login = async (userName: string, jobTitle: string) => {
     try {
       const res = await fetch('/api/user-token', {
@@ -39,6 +43,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  // Logout method: Sends POST request to backend to clear JWT cookie, resets auth state, and redirects to login page
   const logout = async () => {
     try {
       const res = await fetch('/api/logout', { method: 'POST' });
@@ -55,6 +60,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  // Provide auth state and methods to all child components via context
   return (
     <AuthContext.Provider
       value={{ userName, jobTitle, isLoggedIn, login, logout }}

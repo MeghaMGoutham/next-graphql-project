@@ -93,7 +93,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                       color="white"
                       onClick={() => setIsDrawerOpen(true)}
                     >
-                      Open Drawer
+                      Menu
                     </Button>
                   </Drawer.Trigger>
                   <Portal>

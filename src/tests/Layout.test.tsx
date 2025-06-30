@@ -51,7 +51,7 @@ describe('Layout Component', () => {
 
     const user = userEvent.setup();
 
-    const openDrawerButton = screen.getByText('Open Drawer');
+    const openDrawerButton = screen.getByText('Menu');
     await user.click(openDrawerButton);
 
     expect(
@@ -78,7 +78,7 @@ describe('Layout Component', () => {
     );
 
     const user = userEvent.setup();
-    const openDrawerButton = screen.getByText('Open Drawer');
+    const openDrawerButton = screen.getByText('Menu');
     await user.click(openDrawerButton);
 
     const homeButton = await screen.findByRole('button', { name: /home/i });
@@ -100,7 +100,7 @@ describe('Layout Component', () => {
     );
 
     const user = userEvent.setup();
-    const openDrawerButton = screen.getByText('Open Drawer');
+    const openDrawerButton = screen.getByText('Menu');
     await user.click(openDrawerButton);
 
     const editButton = await screen.findByRole('button', {
@@ -124,7 +124,7 @@ describe('Layout Component', () => {
     );
 
     const user = userEvent.setup();
-    const openDrawerButton = screen.getByText('Open Drawer');
+    const openDrawerButton = screen.getByText('Menu');
     await user.click(openDrawerButton);
 
     const logoutButton = await screen.findByRole('button', { name: /logout/i });

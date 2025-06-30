@@ -23,6 +23,7 @@ export default function InformationPage({
 }: {
   currentPage: number;
 }) {
+  // Fetch paginated character data from Rick & Morty GraphQL API
   const { data, loading, error } = useQuery<CharactersQueryData>(
     GET_CHARACTERS,
     {
@@ -31,6 +32,8 @@ export default function InformationPage({
   );
 
   const router = useRouter();
+
+  // State to control modal/dialog open status and selected character details
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<Character | null>(null);
 
@@ -42,12 +45,14 @@ export default function InformationPage({
 
   const characters = data.characters.results;
 
+  // Handler to change page by pushing new URL with updated page query parameter
   const handlePageChange = (newPage: number) => {
     router.push(`/information?page=${newPage}`);
   };
 
   return (
     <Box px={4} py={4} pb={28} height="calc(100vh - 120px)" overflowY="auto">
+      {/* Display character cards in a responsive grid */}
       <SimpleGrid columns={[1, 2, 3]} gap={4} p={4}>
         {characters.map((char: Character) => (
           <Dialog.Root
@@ -76,7 +81,7 @@ export default function InformationPage({
                 </Text>
               </Box>
             </Dialog.Trigger>
-
+            {/* Modal dialog for detailed character info */}
             <Portal>
               <Dialog.Backdrop />
               <Dialog.Positioner>
@@ -136,6 +141,7 @@ export default function InformationPage({
         ))}
       </SimpleGrid>
 
+      {/* Pagination controls */}
       <Box textAlign="center" my={4}>
         <Button
           onClick={() => handlePageChange(currentPage - 1)}

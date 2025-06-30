@@ -4,10 +4,6 @@ import Layout from '@/ui/Layout';
 import ClientWrapper from '@/ui/ClientWrapper';
 import { redirect } from 'next/navigation';
 
-// Home page: Verifies JWT from HTTP-only cookie and passes user data to the client
-// If no token or invalid token, redirect to '/' (login flow)
-const SECRET = process.env.JWT_SECRET!;
-
 export default async function HomePage({
   searchParams,
 }: {
@@ -19,6 +15,8 @@ export default async function HomePage({
   const params = await searchParams;
   const editing = params?.edit === 'true';
 
+  // Verifies JWT from HTTP-only cookie and passes user data to the client
+  // If no token or invalid token, redirect to '/' (login flow)
   if (token) {
     try {
       jwt.verify(token, process.env.JWT_SECRET!);
