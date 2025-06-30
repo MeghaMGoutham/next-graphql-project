@@ -16,12 +16,6 @@ npm install @apollo/client graphql
 npm install @chakra-ui/react @emotion/react @emotion/styled framer-motion
 ```
 
-## Chakra UI Components (Modal, Form Control, etc.)
-
-```bash
-npm install @chakra-ui/form-control @chakra-ui/modal
-```
-
 ## React Hook Form + Zod Validation
 
 ```bash
@@ -41,8 +35,6 @@ npm install -D @types/jsonwebtoken
 - TypeScript
 - Chakra UI (v3+)
   - `@chakra-ui/react`
-  - `@chakra-ui/form-control` (for labeled fields and error messages)
-  - `@chakra-ui/modal` (for modal dialogs)
 - GraphQL + Apollo Client
 - JWT Authentication
 - React Hook Form + Zod
