@@ -2,7 +2,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 # Project Setup
 
-Install Required packages
+Packaged Installed
 
 ## Apollo Client & GraphQL
 
@@ -49,7 +49,7 @@ npm install -D @types/jsonwebtoken
 - Pagination and URL sync (`/information?page=n`)
 - Graceful error, loading, and not-found pages
 
-# Getting Started
+# Getting Started on Local
 
 ## Clone the Repository
 
@@ -63,6 +63,8 @@ cd next-graphql-project
 ```bash
 npm install
 ```
+## env.local setup for local run
+Add a key JWT_SECRET and a value(test value) and save in env.local
 
 ## Run the Development Server
 
