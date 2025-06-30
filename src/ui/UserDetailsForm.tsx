@@ -27,8 +27,6 @@ export default function UserDetailsForm({
   defaultValues?: { userName: string; jobTitle: string };
   isUpdate?: boolean;
 }) {
-  const { login } = useAuth();
-
   // Validation is handled using zod schema + react-hook-form
   const {
     register,
@@ -39,12 +37,8 @@ export default function UserDetailsForm({
     defaultValues,
   });
 
-  const onSubmit: SubmitHandler<FormValues> = async (data) => {
-    if (!isUpdate) {
-      await login(data.userName, data.jobTitle);
-    }
-
-    onComplete(data); // Proceed after login success
+  const onSubmit: SubmitHandler<FormValues> = (data) => {
+    onComplete(data); // Proceed for login
   };
 
   return (

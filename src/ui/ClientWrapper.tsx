@@ -30,7 +30,6 @@ export default function ClientWrapper({
   const handleComplete = (data: { userName: string; jobTitle: string }) => {
     login(data.userName, data.jobTitle);
     setEditing(false);
-    setEditing(false);
 
     //On updating data, URl to be updated back to HomePage "/" (if URL has edit parameter)
     if (searchParams.has('edit')) {
