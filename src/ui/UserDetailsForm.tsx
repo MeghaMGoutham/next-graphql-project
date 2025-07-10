@@ -6,7 +6,6 @@ import { Button, Input, Field, VStack, Box, Flex } from '@chakra-ui/react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useAuth } from '@/context/AuthContext';
 
 interface FormValues {
   userName: string;

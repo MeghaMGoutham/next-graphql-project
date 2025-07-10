@@ -37,7 +37,6 @@ jest.mock('@/ui/UserDetailsForm', () => (props: any) => (
 
 describe('ClientWrapper', () => {
   const loginMock = jest.fn();
-  const updateUserDataMock = jest.fn();
   const replaceMock = jest.fn();
 
   beforeEach(() => {
@@ -59,7 +58,6 @@ describe('ClientWrapper', () => {
       jobTitle: 'Developer',
       isLoggedIn: true,
       login: loginMock,
-      updateUserData: updateUserDataMock,
       loading: false,
     });
   });
@@ -79,7 +77,6 @@ describe('ClientWrapper', () => {
       jobTitle: '',
       isLoggedIn: false,
       login: loginMock,
-      updateUserData: updateUserDataMock,
       loading: false,
     });
 
@@ -102,13 +99,12 @@ describe('ClientWrapper', () => {
     expect(screen.queryByTestId('user-display')).not.toBeInTheDocument();
   });
 
-  it('calls login on form completion when isUpdate is false', async () => {
+  it('calls login on form completion', async () => {
     (useSearchParams as jest.Mock).mockReturnValue({
       get: jest.fn(() => null),
       has: jest.fn(() => false),
       toString: jest.fn(() => ''),
     });
-
     (useAuth as jest.Mock).mockReturnValue({
       userName: '',
       jobTitle: '',
@@ -128,11 +124,11 @@ describe('ClientWrapper', () => {
 
     // login should be called with data from onComplete
     expect(loginMock).toHaveBeenCalledWith('TestUser', 'Tester');
-    expect(updateUserDataMock).not.toHaveBeenCalled();
+
     expect(replaceMock).not.toHaveBeenCalled();
   });
 
-  it('calls updateUserData and replaces URL when isUpdate is true (edit=true)', async () => {
+  it('calls login and replaces URL when isUpdate is true (edit=true)', async () => {
     (useSearchParams as jest.Mock).mockReturnValue({
       get: jest.fn((key) => (key === 'edit' ? 'true' : null)),
       has: jest.fn((key) => key === 'edit'),
@@ -144,8 +140,7 @@ describe('ClientWrapper', () => {
 
     await user.click(screen.getByRole('button', { name: /submit/i }));
 
-    expect(updateUserDataMock).toHaveBeenCalledWith('TestUser', 'Tester');
-    expect(loginMock).not.toHaveBeenCalled();
+    expect(loginMock).toHaveBeenCalled();
     expect(replaceMock).toHaveBeenCalledWith('/?');
   });
 });

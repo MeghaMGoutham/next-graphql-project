@@ -17,7 +17,6 @@ interface AuthContextType {
   isLoggedIn: boolean;
   login: (userName: string, jobTitle: string) => void;
   logout: () => void;
-  updateUserData: (userName: string, jobTitle: string) => void;
 }
 
 // Create React Context with AuthContextType
@@ -92,24 +91,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const updateUserData = (userName: string, jobTitle: string) => {
-    // update user info in context
-    setUserName(userName);
-    setJobTitle(jobTitle);
-  };
-
   // Provide auth state and methods to all child components via context
   return (
     <AuthContext.Provider
-      value={{
-        userName,
-        jobTitle,
-        loading,
-        isLoggedIn,
-        login,
-        logout,
-        updateUserData,
-      }}
+      value={{ userName, jobTitle, loading, isLoggedIn, login, logout }}
     >
       {children}
     </AuthContext.Provider>
