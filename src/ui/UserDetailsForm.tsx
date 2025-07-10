@@ -77,7 +77,7 @@ export default function UserDetailsForm({
               </Field.Label>
               <Input
                 id="jobTitleInput"
-                placeholder="Entere your job title"
+                placeholder="Enter your job title"
                 borderColor="whiteAlpha.700"
                 _placeholder={{ color: 'whiteAlpha.700' }}
                 color="white"

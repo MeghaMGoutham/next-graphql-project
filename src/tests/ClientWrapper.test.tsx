@@ -37,6 +37,7 @@ jest.mock('@/ui/UserDetailsForm', () => (props: any) => (
 
 describe('ClientWrapper', () => {
   const loginMock = jest.fn();
+  const updateUserDataMock = jest.fn();
   const replaceMock = jest.fn();
 
   beforeEach(() => {
@@ -58,6 +59,8 @@ describe('ClientWrapper', () => {
       jobTitle: 'Developer',
       isLoggedIn: true,
       login: loginMock,
+      updateUserData: updateUserDataMock,
+      loading: false,
     });
   });
 
@@ -76,6 +79,8 @@ describe('ClientWrapper', () => {
       jobTitle: '',
       isLoggedIn: false,
       login: loginMock,
+      updateUserData: updateUserDataMock,
+      loading: false,
     });
 
     customRender(<ClientWrapper />);
@@ -97,11 +102,18 @@ describe('ClientWrapper', () => {
     expect(screen.queryByTestId('user-display')).not.toBeInTheDocument();
   });
 
-  it('calls login and clears edit param on form completion', async () => {
+  it('calls login on form completion when isUpdate is false', async () => {
     (useSearchParams as jest.Mock).mockReturnValue({
-      get: jest.fn((key) => (key === 'edit' ? 'true' : null)),
-      has: jest.fn((key) => key === 'edit'),
-      toString: jest.fn(() => 'edit=true'),
+      get: jest.fn(() => null),
+      has: jest.fn(() => false),
+      toString: jest.fn(() => ''),
+    });
+
+    (useAuth as jest.Mock).mockReturnValue({
+      userName: '',
+      jobTitle: '',
+      isLoggedIn: false,
+      login: loginMock,
     });
 
     const user = userEvent.setup();
@@ -116,8 +128,24 @@ describe('ClientWrapper', () => {
 
     // login should be called with data from onComplete
     expect(loginMock).toHaveBeenCalledWith('TestUser', 'Tester');
+    expect(updateUserDataMock).not.toHaveBeenCalled();
+    expect(replaceMock).not.toHaveBeenCalled();
+  });
 
-    // router.replace should be called to remove edit param
+  it('calls updateUserData and replaces URL when isUpdate is true (edit=true)', async () => {
+    (useSearchParams as jest.Mock).mockReturnValue({
+      get: jest.fn((key) => (key === 'edit' ? 'true' : null)),
+      has: jest.fn((key) => key === 'edit'),
+      toString: jest.fn(() => 'edit=true'),
+    });
+
+    const user = userEvent.setup();
+    customRender(<ClientWrapper />);
+
+    await user.click(screen.getByRole('button', { name: /submit/i }));
+
+    expect(updateUserDataMock).toHaveBeenCalledWith('TestUser', 'Tester');
+    expect(loginMock).not.toHaveBeenCalled();
     expect(replaceMock).toHaveBeenCalledWith('/?');
   });
 });

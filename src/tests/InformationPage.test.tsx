@@ -43,7 +43,7 @@ describe('InformationPage', () => {
     });
 
     render(<InformationPage currentPage={1} />, { wrapper: ProvidersWrapper });
-    expect(screen.getByText(/Loading characters.../i)).toBeInTheDocument();
+    expect(screen.getByText(/Loading.../i)).toBeInTheDocument();
   });
 
   it('throws error if query errors', () => {

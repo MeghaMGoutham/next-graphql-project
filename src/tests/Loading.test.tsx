@@ -10,6 +10,6 @@ describe('Loading', () => {
         <Loading />
       </Provider>
     );
-    expect(screen.getByText(/Loading characters.../i)).toBeInTheDocument();
+    expect(screen.getByText(/Loading.../i)).toBeInTheDocument();
   });
 });
