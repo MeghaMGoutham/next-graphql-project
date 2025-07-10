@@ -1,12 +1,19 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from 'react';
 
 // Define the shape of the AuthContext's data and methods
 interface AuthContextType {
   userName: string | null;
   jobTitle: string | null;
+  loading: boolean;
   isLoggedIn: boolean;
   login: (userName: string, jobTitle: string) => void;
   logout: () => void;
@@ -20,7 +27,31 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [userName, setUserName] = useState<string | null>(null);
   const [jobTitle, setJobTitle] = useState<string | null>(null);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
+
+  //rehydrate state from cookie on first load
+  useEffect(() => {
+    const fetchTokenAndSetState = async () => {
+      try {
+        const res = await fetch('/api/check-token', { cache: 'no-store' });
+        if (res.ok) {
+          const data = await res.json();
+          setUserName(data.userName);
+          setJobTitle(data.jobTitle);
+          setIsLoggedIn(true);
+        } else {
+          setIsLoggedIn(false);
+        }
+      } catch {
+        setIsLoggedIn(false);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTokenAndSetState();
+  }, []);
 
   // Login method: Sends POST request to backend API to get JWT cookie, then updates context state with user info and sets isLoggedIn = true
   const login = async (userName: string, jobTitle: string) => {
@@ -63,7 +94,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // Provide auth state and methods to all child components via context
   return (
     <AuthContext.Provider
-      value={{ userName, jobTitle, isLoggedIn, login, logout }}
+      value={{ userName, jobTitle, loading, isLoggedIn, login, logout }}
     >
       {children}
     </AuthContext.Provider>

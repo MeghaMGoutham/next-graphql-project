@@ -9,13 +9,14 @@ import UserDetailsForm from './UserDetailsForm';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import UserDetailsDisplay from './UserDetailsDisplay';
+import Loading from './Loading';
 
 export default function ClientWrapper({
   editMode = false,
 }: {
   editMode?: boolean;
 }) {
-  const { userName, jobTitle, isLoggedIn, login } = useAuth();
+  const { userName, jobTitle, isLoggedIn, login, loading } = useAuth();
 
   const [editing, setEditing] = useState(editMode);
   const router = useRouter();
@@ -38,6 +39,10 @@ export default function ClientWrapper({
       router.replace(`/?${newParams.toString()}`);
     }
   };
+
+  if (loading) {
+    return <Loading />;
+  }
 
   //Displays userform or userdetails based on isLoggedIn state and editing mode
   //Send defaultValues to UserDetailsForm in order to pre-populate the form fields with existing user data when editing, or to have them empty by default when creating new data.

@@ -12,7 +12,7 @@ export default function Loading() {
       color="white"
     >
       <Spinner size="xl" mb={4} />
-      <Text fontSize="xl">Loading characters...</Text>
+      <Text fontSize="xl">Loading...</Text>
     </Flex>
   );
 }

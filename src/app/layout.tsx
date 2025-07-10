@@ -19,11 +19,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning={true}>
       <body>
-        <AuthProvider>
-          <Provider>
+        <Provider>
+          <AuthProvider>
             <ApolloWrapper>{children}</ApolloWrapper>
-          </Provider>
-        </AuthProvider>
+          </AuthProvider>
+        </Provider>
       </body>
     </html>
   );
