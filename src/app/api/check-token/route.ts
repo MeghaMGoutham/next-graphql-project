@@ -8,7 +8,7 @@ export async function GET() {
   const token = (await cookies()).get('userToken')?.value;
 
   if (!token) {
-    return NextResponse.json({ error: 'No token' }, { status: 401 });
+    return NextResponse.json({ isValid: false }, { status: 200 });
   }
 
   try {
@@ -21,6 +21,7 @@ export async function GET() {
     return NextResponse.json({
       userName: decoded.userName,
       jobTitle: decoded.jobTitle,
+      isValid: true,
     });
   } catch (err) {
     return NextResponse.json({ error: 'Invalid token' }, { status: 401 });

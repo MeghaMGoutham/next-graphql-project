@@ -22,6 +22,7 @@ jest.mock('@/ui/UserDetailsDisplay', () => (props: any) => (
     UserDetailsDisplay - {props.userName} / {props.jobTitle}
   </div>
 ));
+
 jest.mock('@/ui/UserDetailsForm', () => (props: any) => (
   <form
     data-testid="user-form"
@@ -37,6 +38,7 @@ jest.mock('@/ui/UserDetailsForm', () => (props: any) => (
 
 describe('ClientWrapper', () => {
   const loginMock = jest.fn();
+  const updateUserDataMock = jest.fn();
   const replaceMock = jest.fn();
 
   beforeEach(() => {
@@ -58,6 +60,7 @@ describe('ClientWrapper', () => {
       jobTitle: 'Developer',
       isLoggedIn: true,
       login: loginMock,
+      updateUserData: updateUserDataMock,
       loading: false,
     });
   });
@@ -77,6 +80,7 @@ describe('ClientWrapper', () => {
       jobTitle: '',
       isLoggedIn: false,
       login: loginMock,
+      updateUserData: updateUserDataMock,
       loading: false,
     });
 
@@ -110,6 +114,8 @@ describe('ClientWrapper', () => {
       jobTitle: '',
       isLoggedIn: false,
       login: loginMock,
+      updateUserData: updateUserDataMock,
+      loading: false,
     });
 
     const user = userEvent.setup();
@@ -139,8 +145,8 @@ describe('ClientWrapper', () => {
     customRender(<ClientWrapper />);
 
     await user.click(screen.getByRole('button', { name: /submit/i }));
-
-    expect(loginMock).toHaveBeenCalled();
+    expect(updateUserDataMock).toHaveBeenCalledWith('TestUser', 'Tester');
+    expect(loginMock).not.toHaveBeenCalled();
     expect(replaceMock).toHaveBeenCalledWith('/?');
   });
 });

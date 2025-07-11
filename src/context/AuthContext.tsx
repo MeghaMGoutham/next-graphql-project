@@ -17,6 +17,7 @@ interface AuthContextType {
   isLoggedIn: boolean;
   login: (userName: string, jobTitle: string) => void;
   logout: () => void;
+  updateUserData: (userName: string, jobTitle: string) => void;
 }
 
 // Create React Context with AuthContextType
@@ -30,27 +31,42 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
-  //rehydrate state from cookie on first load
+  //hydrate state from local storage and check token
   useEffect(() => {
-    const fetchTokenAndSetState = async () => {
+    const hydrateFromStorageTokenCheck = async () => {
+      const cached = localStorage.getItem('userData');
+      if (cached) {
+        try {
+          const parsed = JSON.parse(cached);
+          setUserName(parsed.userName);
+          setJobTitle(parsed.jobTitle);
+          setIsLoggedIn(true);
+        } catch (err) {
+          console.error('Invalid localStorage JSON:', err);
+          localStorage.removeItem('userData');
+        }
+      }
       try {
         const res = await fetch('/api/check-token', { cache: 'no-store' });
-        if (res.ok) {
-          const data = await res.json();
-          setUserName(data.userName);
-          setJobTitle(data.jobTitle);
+        const data = await res.json();
+
+        if (data.isValid) {
           setIsLoggedIn(true);
         } else {
           setIsLoggedIn(false);
+          setUserName(null);
+          setJobTitle(null);
         }
       } catch {
         setIsLoggedIn(false);
+        setUserName(null);
+        setJobTitle(null);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchTokenAndSetState();
+    hydrateFromStorageTokenCheck();
   }, []);
 
   // Login method: Sends POST request to backend API to get JWT cookie, then updates context state with user info and sets isLoggedIn = true
@@ -69,6 +85,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setIsLoggedIn(true);
       setUserName(userName);
       setJobTitle(jobTitle);
+      localStorage.setItem('userData', JSON.stringify({ userName, jobTitle }));
     } catch (err) {
       console.error('Login error:', err);
     }
@@ -91,10 +108,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const updateUserData = (userName: string, jobTitle: string) => {
+    setUserName(userName);
+    setJobTitle(jobTitle);
+    localStorage.setItem('userData', JSON.stringify({ userName, jobTitle }));
+  };
+
   // Provide auth state and methods to all child components via context
   return (
     <AuthContext.Provider
-      value={{ userName, jobTitle, loading, isLoggedIn, login, logout }}
+      value={{
+        userName,
+        jobTitle,
+        loading,
+        isLoggedIn,
+        login,
+        logout,
+        updateUserData,
+      }}
     >
       {children}
     </AuthContext.Provider>

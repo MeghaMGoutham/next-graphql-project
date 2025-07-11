@@ -16,7 +16,9 @@ export default function ClientWrapper({
 }: {
   editMode?: boolean;
 }) {
-  const { userName, jobTitle, isLoggedIn, login, loading } = useAuth();
+  const { userName, jobTitle, isLoggedIn, login, loading, updateUserData } =
+    useAuth();
+
 
   const [editing, setEditing] = useState(editMode);
   const router = useRouter();
@@ -29,10 +31,14 @@ export default function ClientWrapper({
   }, [searchParams]);
 
   const handleComplete = (data: { userName: string; jobTitle: string }) => {
-    login(data.userName, data.jobTitle);
+    if (editing) {
+      updateUserData(data.userName, data.jobTitle);
+    } else {
+      login(data.userName, data.jobTitle);
+    }
+
     setEditing(false);
 
-    //On updating data, URl to be updated back to HomePage "/" (if URL has edit parameter)
     if (searchParams.has('edit')) {
       const newParams = new URLSearchParams(searchParams.toString());
       newParams.delete('edit');

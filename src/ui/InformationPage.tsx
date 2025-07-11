@@ -53,7 +53,7 @@ export default function InformationPage({
   return (
     <Box px={4} py={4} pb={28} height="calc(100vh - 120px)" overflowY="auto">
       {/* Display character cards in a responsive grid */}
-      <SimpleGrid columns={[1, 2, 3]} gap={4} p={4}>
+      <SimpleGrid columns={[1, 2, 3]} gap={4} p={4} alignItems="stretch">
         {characters.map((char: Character) => (
           <Dialog.Root
             key={char.id}
@@ -65,18 +65,25 @@ export default function InformationPage({
           >
             <Dialog.Trigger asChild>
               <Box
-                p={4}
+                p={0}
                 shadow="md"
                 borderWidth="1px"
                 borderRadius="md"
                 cursor="pointer"
+                overflow="hidden"
                 onClick={() => {
                   setSelected(char);
                   setOpen(true);
                 }}
               >
-                <Image src={char.image} alt={char.name} borderRadius="md" />
-                <Text mt={2} fontWeight="bold" color="white">
+                <Image
+                  src={char.image}
+                  alt={char.name}
+                  w="100%"
+                  h="250px"
+                  objectFit="cover"
+                />
+                <Text p={2} fontWeight="bold" color="white" bg="blackAlpha.600">
                   {char.name}
                 </Text>
               </Box>

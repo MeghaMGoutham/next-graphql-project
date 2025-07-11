@@ -55,6 +55,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         _hover={{ bg: 'red.600' }}
         onClick={() => {
           if (isMobile) setIsDrawerOpen(false); // Close the drawer on click
+          localStorage.removeItem('userData');
           logout();
         }}
       >
