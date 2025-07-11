@@ -99,6 +99,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUserName(null);
         setJobTitle(null);
         setIsLoggedIn(false);
+        localStorage.removeItem('userData');
         router.push('/');
       } else {
         console.error('Logout API failed');
